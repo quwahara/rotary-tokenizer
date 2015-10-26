@@ -102,5 +102,13 @@ describe('Tokenizer', function() {
     it("Block comment, id-start-end",      function () { assert.equal(t("aaa/**/"),       '[{"text":"aaa","term":"id"},{"text":"/*","term":"bc-start"},{"text":"*/","term":"bc-end"}]'                                                              ) })
     it("Block comment, start-end-id",      function () { assert.equal(t("/**/bbb"),       '[{"text":"/*","term":"bc-start"},{"text":"*/","term":"bc-end"},{"text":"bbb","term":"id"}]'                                                              ) })
     it("Block comment, id-start-end-id",   function () { assert.equal(t("aaa/**/bbb"),    '[{"text":"aaa","term":"id"},{"text":"/*","term":"bc-start"},{"text":"*/","term":"bc-end"},{"text":"bbb","term":"id"}]'                                   ) })
+    it("No definition matched",            function () { assert.throws(function() {
+      var settings1 = { rootTerminologic: new rotaryTokenizer.Terminologic() }
+      settings1.rootTerminologic.add("nomutch", "nomutch")
+      var tkn1 = new rotaryTokenizer.Tokenizer(settings1)
+      tkn1.init()
+      tkn1.setText("a")
+      tkn1.next()
+    })})
   });
 });

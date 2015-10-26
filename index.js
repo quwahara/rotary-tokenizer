@@ -78,7 +78,7 @@ function Tokenizer(settings) {
     }
 
     if(candidates.length === 0) {
-      throw "No definition matched at " + nextIndex
+      throw new Error("No definition matched at " + nextIndex)
     }
 
     var candidate = candidates[0]
