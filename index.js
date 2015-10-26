@@ -23,8 +23,8 @@ function getDefaultSettings() {
   var root = new Terminologic()
   settings.rootTerminologic = root
   root.add("\\s+", "blank")
-  root.add("\\w+", "id")
-  root.add(".", "unknown")
+  root.add("[a-zA-Z_][a-zA-Z_0-9]*", "id")
+  root.add("[~!@#$%^&*()+`\\-={}|[\\]\\\\:\";'<>?,./]", "symbol")
   // Line comment
   var lc = new Terminologic()
   lc.startDefinition = new Definition("//", "lc-start")
