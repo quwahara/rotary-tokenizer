@@ -94,7 +94,7 @@ function Tokenizer(settings) {
 
     var len = token.text.length
     if(len === 0) {
-      throw "Matched text length was 0."
+      throw new Error("Matched text length was 0")
     }
     nextIndex += len
     return token;

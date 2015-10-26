@@ -110,5 +110,13 @@ describe('Tokenizer', function() {
       tkn1.setText("a")
       tkn1.next()
     })})
+    it("Matched text length was 0",            function () { assert.throws(function() {
+      var settings1 = { rootTerminologic: new rotaryTokenizer.Terminologic() }
+      settings1.rootTerminologic.add("", "zero-length")
+      var tkn1 = new rotaryTokenizer.Tokenizer(settings1)
+      tkn1.init()
+      tkn1.setText("a")
+      tkn1.next()
+    })})
   });
 });
