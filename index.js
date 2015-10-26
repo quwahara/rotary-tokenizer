@@ -20,25 +20,25 @@ function Token(text, term) {
 }
 function getDefaultSettings() {
   var settings = {}
-  settings.rootTerminologic = new Terminologic()
-  var root = function(pattern, term) {
-    settings.rootTerminologic.add(pattern, term)
-  }
-  root("\\s+", "blank")
-  root("\\w+", "id")
-  root(".", "unknown")
-  var lineCommentTerminologic = new Terminologic()
-  lineCommentTerminologic.startDefinition = new Definition("//", "lc-start")
-  lineCommentTerminologic.endDefinition = new Definition("(\\r\\n|\\r|\\n)", "lc-end")
-  lineCommentTerminologic.add("[^\\r\\n]+", "lc-body")
-  lineCommentTerminologic.restitution = settings.rootTerminologic
-  settings.rootTerminologic.substitutes.push(lineCommentTerminologic)
-  var blockCommentTerminologic = new Terminologic()
-  blockCommentTerminologic.startDefinition = new Definition("/\\*", "bc-start")
-  blockCommentTerminologic.endDefinition = new Definition("\\*/", "bc-end")
-  blockCommentTerminologic.add("((?!\\*/).)+", "bc-body")
-  blockCommentTerminologic.restitution = settings.rootTerminologic
-  settings.rootTerminologic.substitutes.push(blockCommentTerminologic)
+  var root = new Terminologic()
+  settings.rootTerminologic = root
+  root.add("\\s+", "blank")
+  root.add("\\w+", "id")
+  root.add(".", "unknown")
+  // Line comment
+  var lc = new Terminologic()
+  lc.startDefinition = new Definition("//", "lc-start")
+  lc.endDefinition = new Definition("(\\r\\n|\\r|\\n)", "lc-end")
+  lc.add("[^\\r\\n]+", "lc-body")
+  lc.restitution = root
+  root.substitutes.push(lc)
+  // Block comment
+  var bc = new Terminologic()
+  bc.startDefinition = new Definition("/\\*", "bc-start")
+  bc.endDefinition = new Definition("\\*/", "bc-end")
+  bc.add("((?!\\*/).)+", "bc-body")
+  bc.restitution = root
+  root.substitutes.push(bc)
   return settings;
 }
 function Tokenizer(settings) {
