@@ -55,7 +55,6 @@ describe('#getDefaultSettings()', function() {
   it('symbol, ]',   function() { assert(t('symbol', ']')) })
   it('symbol, \\',  function() { assert(t('symbol', '\\')) })
   it('symbol, :',   function() { assert(t('symbol', ':')) })
-  it('symbol, "',   function() { assert(t('symbol', '"')) })
   it('symbol, ;',   function() { assert(t('symbol', ';')) })
   it('symbol, \'',  function() { assert(t('symbol', '\'')) })
   it('symbol, <',   function() { assert(t('symbol', '<')) })
@@ -102,6 +101,15 @@ describe('Tokenizer', function() {
     it("Block comment, id-start-end",      function () { assert.equal(t("aaa/**/"),       '[{"text":"aaa","term":"id"},{"text":"/*","term":"bc-start"},{"text":"*/","term":"bc-end"}]'                                                              ) })
     it("Block comment, start-end-id",      function () { assert.equal(t("/**/bbb"),       '[{"text":"/*","term":"bc-start"},{"text":"*/","term":"bc-end"},{"text":"bbb","term":"id"}]'                                                              ) })
     it("Block comment, id-start-end-id",   function () { assert.equal(t("aaa/**/bbb"),    '[{"text":"aaa","term":"id"},{"text":"/*","term":"bc-start"},{"text":"*/","term":"bc-end"},{"text":"bbb","term":"id"}]'                                   ) })
+    it("Double quotes, start",            function() { assert.equal(t('"'),           '[{"text":"\\"","term":"dq-start"}]' ) })
+    it("Double quotes, start-end",        function() { assert.equal(t('""'),          '[{"text":"\\"","term":"dq-start"},{"text":"\\"","term":"dq-end"}]' ) })
+    it("Double quotes, start-body 1",     function() { assert.equal(t('"a'),          '[{"text":"\\"","term":"dq-start"},{"text":"a","term":"dq-body"}]' ) })
+    it("Double quotes, start-body-end 1", function() { assert.equal(t('"a"'),         '[{"text":"\\"","term":"dq-start"},{"text":"a","term":"dq-body"},{"text":"\\"","term":"dq-end"}]' ) })
+    it("Double quotes, start-body 2",     function() { assert.equal(t('"\\"'),        '[{"text":"\\"","term":"dq-start"},{"text":"\\\\\\"","term":"dq-body"}]' ) })
+    it("Double quotes, start-body-end 2", function() { assert.equal(t('"\\""'),       '[{"text":"\\"","term":"dq-start"},{"text":"\\\\\\"","term":"dq-body"},{"text":"\\"","term":"dq-end"}]' ) })
+    it("Double quotes, start-body-end 3", function() { assert.equal(t('"\\\\"'),      '[{"text":"\\"","term":"dq-start"},{"text":"\\\\\\\\","term":"dq-body"},{"text":"\\"","term":"dq-end"}]' ) })
+    it("Double quotes, start-body 3",     function() { assert.equal(t('"\\\\\\"'),    '[{"text":"\\"","term":"dq-start"},{"text":"\\\\\\\\\\\\\\"","term":"dq-body"}]' ) })
+    it("Double quotes, start-body-end 4", function() { assert.equal(t('"\\\\\\""'),   '[{"text":"\\"","term":"dq-start"},{"text":"\\\\\\\\\\\\\\"","term":"dq-body"},{"text":"\\"","term":"dq-end"}]' ) })
     it("No definition matched",            function () { assert.throws(function() {
       var settings1 = { rootTerminologic: new rotaryTokenizer.Terminologic() }
       settings1.rootTerminologic.add("nomutch", "nomutch")

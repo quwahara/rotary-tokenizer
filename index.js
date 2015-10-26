@@ -24,7 +24,7 @@ function getDefaultSettings() {
   settings.rootTerminologic = root
   root.add("\\s+", "blank")
   root.add("[a-zA-Z_][a-zA-Z_0-9]*", "id")
-  root.add("[~!@#$%^&*()+`\\-={}|[\\]\\\\:\";'<>?,./]", "symbol")
+  root.add("[~!@#$%^&*()+`\\-={}|[\\]\\\\:;'<>?,./]", "symbol")
   // Line comment
   var lc = new Terminologic()
   lc.startDefinition = new Definition("//", "lc-start")
@@ -39,6 +39,13 @@ function getDefaultSettings() {
   bc.add("((?!\\*/).)+", "bc-body")
   bc.restitution = root
   root.substitutes.push(bc)
+  // Double quotes
+  var dq = new Terminologic()
+  dq.startDefinition = new Definition('"', "dq-start")
+  dq.endDefinition = new Definition('"', "dq-end")
+  dq.add('(\\\\\\\\|\\\\"|[^"])+', "dq-body")
+  dq.restitution = root
+  root.substitutes.push(dq)
   return settings;
 }
 function Tokenizer(settings) {
