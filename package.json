@@ -1,0 +1,14 @@
+{
+  "name": "rotary-tokenizer",
+  "version": "0.1.0",
+  "description": "A Tokenizer",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [
+    "tokenizer"
+  ],
+  "author": "Mitsuaki Kuwahara <quwahara@gmail.com>",
+  "license": "MIT"
+}
