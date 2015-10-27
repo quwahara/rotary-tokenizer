@@ -43,7 +43,7 @@ function getDefaultSettings() {
   var dq = new Terminologic()
   dq.startDefinition = new Definition('"', "dq-start")
   dq.endDefinition = new Definition('"', "dq-end")
-  dq.add('(\\\\\\\\|\\\\"|[^"])+', "dq-body")
+  dq.add('(\\\\.|[^"])+', "dq-body")
   dq.restitution = root
   root.substitutes.push(dq)
   return settings;
